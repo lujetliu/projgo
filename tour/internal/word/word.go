@@ -18,7 +18,7 @@ func UnderscoreToUpperCamelCase(s string) string {
 	s = strings.Replace(s, "_", "", -1)
 	s = strings.Title(s)
 	// strings.Title()函数返回string的副本, 其中包含string的所有Unicode字母,
-	// 其起始单词映射到其Unicode标题大小写
+	// 其起始单词映射到其Unicode标题大小写, 相当于每个单词的首字母大写
 	return strings.Replace(s, " ", "", -1)
 }
 
