@@ -15,12 +15,14 @@ import (
 	"blog/global"
 	"blog/internal/model"
 	"blog/internal/routers"
+	"blog/pkg/logger"
 	"blog/pkg/setting"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/natefinch/lumberjack"
 )
 
 func init() {
@@ -32,6 +34,11 @@ func init() {
 	err = setupDBEngine()
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
+	}
+
+	err = setupLogger()
+	if err != nil {
+		log.Fatalf("init.setupLogger err: %v", err)
 	}
 
 }
@@ -78,5 +85,18 @@ func setupDBEngine() error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func setupLogger() error {
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		// TODO: 熟悉 lumberjack 库的使用
+		// 结构体添加了 yaml 标签, 支持从配置文件解析以下参数
+		Filename:  global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
+		MaxSize:   600, // 日志文件允许的最大占用空间为 600 MB TODO: 如果超过了是如何处理的
+		MaxAge:    10,  // 日志文件最大生存周期为10天 TODO: 如何监控文件过期的
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+
 	return nil
 }
