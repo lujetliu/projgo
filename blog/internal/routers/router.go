@@ -12,6 +12,8 @@ func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Static("/docs", "./docs")
+
 	url := ginSwagger.URL("http://127.0.0.1:8080/docs/swagger.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 

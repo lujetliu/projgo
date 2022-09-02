@@ -35,7 +35,6 @@ info:
   contact: {}
   description: go 项目实战
   license: {}
-  termsOfService: git@github.com:lujetliu/projgo.git
   title: 博客系统
   version: "1.0"
 paths:

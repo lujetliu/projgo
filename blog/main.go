@@ -46,7 +46,6 @@ func init() {
 // @title 博客系统
 // @version 1.0
 // @description go 项目实战
-// @termsOfService  git@github.com:lujetliu/projgo.git
 func main() {
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
