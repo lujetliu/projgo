@@ -1,1 +1,12 @@
 2022/09/01 19:08:18 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1662030498844298414}
+2022/09/11 10:45:31 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: Name长度必须至少为3个字符","time":1662864331850110615}
+2022/09/11 11:03:22 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: Name长度必须至少为3个字符,State为必填字段,ModifiedBy为必填字段","time":1662865402777011796}
+2022/09/11 11:04:55 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段,ModifiedBy为必填字段","time":1662865495350593660}
+2022/09/11 11:06:04 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段,ModifiedBy为必填字段","time":1662865564303644053}
+2022/09/11 11:06:45 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1662865605129706644}
+2022/09/11 11:07:28 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1662865648435924315}
+2022/09/11 11:08:16 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1662865696343818232}
+2022/09/11 11:11:03 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1662865863822469766}
+2022/09/11 11:11:46 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1662865906849587157}
+2022/09/11 11:12:24 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1662865944917107070}
+2022/09/11 11:13:23 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1662866003147615411}

@@ -16,33 +16,35 @@ import (
  	max	最大值
  	oneof	参数集内的其中之一
  	len	长度要求与 len 给定的一致
+	TODO: 熟悉更多的规则
 */
 
+// 注意: 每个tag里面规则之间用","分隔, 之间没有空格
 type CountTagRequest struct {
 	Name  string `form:"name" binding:"max=100"`
-	State uint8  `form:"state,defalut=1" binding:"oneof=0 1"`
+	State uint8  `form:"state,default=1" binding:"oneof=0 1"`
 }
 
 type TagListRequest struct {
 	Name  string `form:"name" binding:"max=100"`
-	State uint8  `form:"state,defalut=1" binding:"oneof=0 1"`
+	State uint8  `form:"state,default=1" binding:"oneof=0 1"`
 }
 
 type CreateTagRequest struct {
-	Name      string `form:"name" binding:"min=3, max=100"`
-	CreatedBy string `form:"created_by" binding:"required, min=3, max=100"`
-	State     uint8  `form:"state, default=1" binding:"oneof=0 1"`
+	Name      string `form:"name" binding:"min=3,max=100"`
+	CreatedBy string `form:"created_by" binding:"required,min=3,max=100"`
+	State     uint8  `form:"state,default=1" binding:"oneof=0 1"`
 }
 
 type UpdateTagRequest struct {
-	ID         uint32 `form:"id" binding:"required, gte=1"`
-	Name       string `form:"name" binding:"minx=3, max=100"`
-	State      uint8  `form:"state" binding:"required, oneof=0 1"`
-	ModifiedBy string `json:"modified_by" binding:"required, min=3, max=100"`
+	ID         uint32 `form:"id" binding:"required,gte=1"`
+	Name       string `form:"name" binding:"min=3,max=100"`
+	State      uint8  `form:"state" binding:"oneof=0 1"`
+	ModifiedBy string `form:"modified_by" binding:"required,min=3,max=100"`
 }
 
 type DeleteTagRequest struct {
-	ID uint32 `form:"id" binding:"required, gte=1"`
+	ID uint32 `form:"id" binding:"required,gte=1"`
 }
 
 func (svc *Service) CountTag(param *CountTagRequest) (int, error) {

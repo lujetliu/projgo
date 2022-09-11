@@ -41,6 +41,7 @@ func init() {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
 
+	setupMysqlMigrate()
 }
 
 // @title 博客系统
@@ -102,4 +103,8 @@ func setupLogger() error {
 	}, "", log.LstdFlags).WithCaller(2)
 
 	return nil
+}
+
+func setupMysqlMigrate() {
+	model.Migrate()
 }

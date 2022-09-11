@@ -1,11 +1,13 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type Tag struct {
-	*Model
-	Name  string `json:"name"`
-	State uint8  `json:"state"`
+	*Model        // TODO: 这里存指针的目的是什么?
+	Name   string `json:"name"`
+	State  uint8  `json:"state"`
 }
 
 func (t Tag) TableName() string {
@@ -48,9 +50,22 @@ func (t Tag) Create(db *gorm.DB) error {
 	return db.Create(&t).Error
 }
 
-func (t Tag) Update(db *gorm.DB) error {
-	// TODO: 这里的 update 不用传指针?
-	return db.Model(&Tag{}).Where("id = ? AND is_del = ?", t.ID, 0).Update(t).Error
+// TODO: 熟悉 gorm Update 方法
+// GORM 中使用 struct 类型传入进行更新时, GORM 不会对值为零值的字段进行变更,
+// 比如传入 Tag 中的 state 字段为 0 的时候并不会更新, 因为 gorm 无法判断字段
+// 值是真的零值还是外部传入的的值; 所以需要使用其他类型, 如map, 而不是使用
+// struct 类型传参进行更新
+// func (t Tag) Update(db *gorm.DB) error {
+// 	// TODO: 这里的 update 不用传指针?
+// 	return db.Model(&Tag{}).Where("id = ? AND is_del = ?", t.ID, 0).Update(t).Error
+// }
+func (t Tag) Update(db *gorm.DB, values interface{}) error {
+	if err := db.Model(t).Where("id = ? AND is_del = ?", t.ID, 0).
+		Updates(values).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (t Tag) Delete(db *gorm.DB) error {
