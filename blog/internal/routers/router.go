@@ -1,8 +1,11 @@
 package routers
 
 import (
+	"blog/global"
 	"blog/internal/middleware"
+	"blog/internal/routers/api"
 	v1 "blog/internal/routers/api/v1"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -16,8 +19,15 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Translations())
 	r.Static("/docs", "./docs")
 
+	// r.Static("/static", "./storage/uploads")
+	// TODO: StaticFS 的实现, 源码
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
+
 	url := ginSwagger.URL("http://127.0.0.1:8080/docs/swagger.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+
+	upload := api.NewUpload()
+	r.POST("/upload/file", upload.UploadFile)
 
 	article := v1.NewArticle()
 	tag := v1.NewTag()
