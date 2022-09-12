@@ -35,13 +35,13 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
+	setupMysqlMigrate()
 
 	err = setupLogger()
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
 
-	setupMysqlMigrate()
 }
 
 // @title 博客系统
@@ -69,17 +69,25 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	global.ServerSetting.ReadTimeout *= time.Second
+	global.ServerSetting.WriteTimeout *= time.Second
+
 	err = setting.ReadSection("App", &global.AppSetting)
 	if err != nil {
 		return err
 	}
+
 	err = setting.ReadSection("Database", &global.DatabaseSetting)
 	if err != nil {
 		return err
 	}
 
-	global.ServerSetting.ReadTimeout *= time.Second
-	global.ServerSetting.WriteTimeout *= time.Second
+	err = setting.ReadSection("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+	global.JWTSetting.Expire *= time.Second
+
 	return nil
 }
 

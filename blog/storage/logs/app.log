@@ -10,3 +10,9 @@
 2022/09/11 11:11:46 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1662865906849587157}
 2022/09/11 11:12:24 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1662865944917107070}
 2022/09/11 11:13:23 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 39 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1662866003147615411}
+2022/09/12 15:14:32 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 40 main.init.0"],"level":"error","message":"app.BindAndValid errs: AppKey为必填字段,AppSecret为必填字段","time":1662966872823043956}
+2022/09/12 15:15:25 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 40 main.init.0"],"level":"error","message":"svc.CheckAuth err: auth info does not exist.","time":1662966925073128023}
+2022/09/12 15:50:30 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 40 main.init.0"],"level":"error","message":"app.BindAndValid errs: AppKey为必填字段,AppSecret为必填字段","time":1662969030006116961}
+2022/09/12 15:51:03 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 40 main.init.0"],"level":"error","message":"app.BindAndValid errs: AppKey为必填字段,AppSecret为必填字段","time":1662969063080521024}
+2022/09/12 15:52:05 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 40 main.init.0"],"level":"error","message":"app.BindAndValid errs: AppKey为必填字段,AppSecret为必填字段","time":1662969125323494851}
+2022/09/12 15:56:48 {"callers":["/home/lucas/gogo/projgo/blog/main.go: 40 main.init.0"],"level":"error","message":"app.BindAndValid errs: AppKey为必填字段,AppSecret为必填字段","time":1662969408358782816}

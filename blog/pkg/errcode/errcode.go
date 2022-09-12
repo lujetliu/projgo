@@ -42,6 +42,7 @@ func (e *Error) Details() []string {
 	return e.details
 }
 
+// TODO: 此实现可以借鉴
 func (e *Error) WithDetails(details ...string) *Error {
 	newError := *e
 	newError.details = []string{}

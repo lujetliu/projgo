@@ -27,3 +27,7 @@ Database:
   Charset: utf8
   ParseTime: True
   MaxIdleConns: 10
+JWT:
+  Secret: eddycjy
+  Issuer: blog-service
+  Expire: 7200
