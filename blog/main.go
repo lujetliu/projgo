@@ -35,7 +35,6 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
-	setupMysqlMigrate()
 
 	err = setupLogger()
 	if err != nil {
@@ -88,6 +87,11 @@ func setupSetting() error {
 	}
 	global.JWTSetting.Expire *= time.Second
 
+	err = setting.ReadSection("Email", &global.EmailSetting)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -97,6 +101,7 @@ func setupDBEngine() error {
 	if err != nil {
 		return err
 	}
+	model.Migrate()
 	return nil
 }
 
@@ -111,8 +116,4 @@ func setupLogger() error {
 	}, "", log.LstdFlags).WithCaller(2)
 
 	return nil
-}
-
-func setupMysqlMigrate() {
-	model.Migrate()
 }

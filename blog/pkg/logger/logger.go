@@ -99,7 +99,7 @@ func (l *Logger) WithCaller(skip int) *Logger {
 }
 
 // 设置当前的整个调用栈信息
-// TODO: 函数帧栈, 运行时
+// TODO: 函数帧栈, 运行时 runtime 包
 func (l *Logger) WithCallersFrames() *Logger {
 	maxCallerDepth := 25
 	minCallerDepth := 1
@@ -176,4 +176,8 @@ func (l *Logger) Fatal(v ...interface{}) {
 
 func (l *Logger) Fatalf(format string, v ...interface{}) {
 	l.Output(LevelFatal, fmt.Sprintf(format, v...))
+}
+
+func (l *Logger) Panicf(format string, v ...interface{}) {
+	l.Output(LevelPanic, fmt.Sprintf(format, v...))
 }
