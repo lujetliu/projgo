@@ -5,7 +5,9 @@ import (
 	"blog/internal/middleware"
 	"blog/internal/routers/api"
 	v1 "blog/internal/routers/api/v1"
+	"blog/pkg/limiter"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -14,11 +16,23 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
-	r.Use(middleware.Translations())
-	r.Static("/docs", "./docs")
 
+	// 中间件的注册在注册顺序上注意, Recovery 这类应用中间件应当尽可能的早注册
+	if global.ServerSetting.RunMode == "debug" {
+		r.Use(gin.Logger())
+		r.Use(gin.Recovery())
+	} else {
+		r.Use(middleware.AccessLog())
+		r.Use(middleware.Recovery())
+	}
+
+	r.Use(middleware.RateLimiter(methodLimiters))
+	r.Use(middleware.ContextTimeout(global.ServerSetting.ContextTimeout * time.Second))
+
+	// 翻译
+	r.Use(middleware.Translations())
+
+	r.Static("/docs", "./docs")
 	// r.Static("/static", "./storage/uploads")
 	// TODO: StaticFS 的实现, 源码
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
@@ -55,3 +69,11 @@ func NewRouter() *gin.Engine {
 
 	return r
 }
+
+// TODO: 限流器的设置可以放到配置中
+var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucketRule{
+	Key:          "/auth",
+	FillInterval: time.Second, // 每隔1秒放一次令牌
+	Capacity:     10,          // 桶容量为10
+	Quantum:      10,          // 每次放10个令牌
+})

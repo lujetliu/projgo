@@ -3,10 +3,11 @@ package setting
 import "time"
 
 type ServerSettingS struct {
-	RunMode      string
-	HttpPort     string
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
+	RunMode        string
+	HttpPort       string
+	ReadTimeout    time.Duration
+	WriteTimeout   time.Duration
+	ContextTimeout time.Duration
 }
 
 type AppSettingS struct {

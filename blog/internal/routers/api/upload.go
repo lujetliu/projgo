@@ -13,6 +13,7 @@ import (
 
 type Upload struct{}
 
+// TODO: 避免在包外实例化结构体吗? 这样设计有何优点
 func NewUpload() Upload {
 	return Upload{}
 }
