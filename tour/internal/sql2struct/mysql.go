@@ -57,7 +57,9 @@ func NewDBModel(info *DBInfo) *DBModel {
 
 func (m *DBModel) Connect() error {
 	var err error
-	s := "%s:%s@tcp(%s)/information_schema?charset=%s&parseTime=True%loc=Local"
+	s := "%s:%s@tcp(%s)/information_schema?charset=%s&parseTime=true&loc=Local"
+	fmt.Println(s)
+
 	dsn := fmt.Sprintf(s, m.DBInfo.UserName,
 		m.DBInfo.Password,
 		m.DBInfo.Host,
@@ -71,11 +73,12 @@ func (m *DBModel) Connect() error {
 	return nil
 }
 
-// 获取列中的信息
+// 获取列中的信息, TODO: 熟悉 mysql COLUMNS
 func (m *DBModel) GetColumns(dbName, tableName string) ([]*TableColumn, error) {
-	query := "SELECT COLUMN_NAME, DATA_TYPE, COLUMN_KEY, IS_NULLABLE, " +
-		"COLUMN_TYPE, COLUMN_COMMENT " +
-		"FROM COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? "
+	query := "SELECT COLUMN_NAME, DATA_TYPE, COLUMN_KEY, IS_NULLABLE, COLUMN_TYPE, COLUMN_COMMENT " +
+		"FROM information_schema.COLUMNS " +
+		"WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? "
+	fmt.Println(dbName, tableName)
 	rows, err := m.DBEngine.Query(query, dbName, tableName)
 	if err != nil {
 		return nil, err
