@@ -2,11 +2,17 @@ syntax = "proto3";
 option go_package = "./proto;proto";
 
 
+// 生成proto对应的pb.go
+//  protoc --go_out=plugins=grpc:. ./proto/*.proto
+
 
 package hello;
 
 service Greeter {
-    rpc SayHello (HelloRequest) returns (HelloReply) {}
+    rpc SayHello(HelloRequest) returns (HelloReply) {} // 一元
+	rpc SayList(HelloRequest) returns (stream HelloReply) {} // 服务端流式
+	rpc SayRecord(stream HelloRequest) returns (HelloReply) {} // 服务端流式
+	rpc SayRoute(stream HelloRequest) returns (stream HelloReply) {} // 双向流式
 }
 
 message HelloRequest {
