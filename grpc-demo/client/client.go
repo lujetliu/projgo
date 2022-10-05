@@ -36,9 +36,11 @@ func SayList(client pb.GreeterClient, r *pb.HelloRequest) error {
 		// TODO: Recv 源码
 		resp, err := stream.Recv()
 		if err == io.EOF {
+			log.Println("io.EOF")
 			break
 		}
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 

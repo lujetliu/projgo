@@ -1,0 +1,11 @@
+syntax = "proto3";
+option go_package = "./proto;proto";
+
+// 生成proto对应的pb.go
+//  protoc --go_out=plugins=grpc:. ./proto/*.proto
+
+message Pager {
+	int64 page = 1;
+	int64 page_size = 2;
+	int64 total_rows = 3;
+}

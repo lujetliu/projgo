@@ -1,0 +1,27 @@
+syntax = "proto3";
+option go_package = "./proto;proto";
+
+// 生成proto对应的pb.go
+//  protoc --go_out=plugins=grpc:. ./proto/*.proto
+
+import "proto/common.proto";
+
+service TagService {
+	rpc GetTagList (GetTagListRequest) returns (GetTagListReply) {}
+}
+
+message GetTagListRequest {
+	string name = 1;
+	uint32 state = 2;
+}
+
+message Tag {
+	int64 id = 1;
+	string name = 2;
+	uint32 state = 3;
+}
+
+message GetTagListReply {
+	repeated Tag list = 1;
+	Pager pager = 2;
+}

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -34,6 +35,9 @@ func (v ValidErrors) Errors() []string {
 func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
 	var errs ValidErrors
 	err := c.ShouldBind(v)
+	fmt.Println(err)
+	fmt.Println(v)
+
 	if err != nil {
 		v := c.Value("trans") // internal/middleware/translations.go, Line51
 		trans, _ := v.(ut.Translator)

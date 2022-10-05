@@ -11,6 +11,8 @@ package main
 		响应给客户端
 	- Bidirectional streaming RPC: 双向流式RPC
 		双向流, 由客户端以流式的方式发起请求, 服务端同样以流式的方式响应请求
+	TODO: 熟悉以上调用方式的应用场景,  使用 wireshark 抓包分析客户端和服务端
+		的交互过程
 */
 
 import (
@@ -28,12 +30,17 @@ import (
 type GreeterServer struct{}
 
 // 一元RPC
-func (s *GreeterServer) SayHello(ctx context.Context, r *pb.HelloRequest) (*pb.HelloReply, error) {
+func (s *GreeterServer) SayHello(ctx context.Context,
+	r *pb.HelloRequest) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "hello, world"}, nil
 }
 
 // 服务端流式RPC
-func (s *GreeterServer) SayList(r *pb.HelloRequest, stream pb.Greeter_SayListServer) error {
+func (s *GreeterServer) SayList(r *pb.HelloRequest,
+	stream pb.Greeter_SayListServer) error {
+	if r.Name != "client1" {
+		return nil
+	}
 	for n := 0; n <= 6; n++ {
 		// TODO: Send 方法源码
 		_ = stream.Send(&pb.HelloReply{Message: "hello.list"})
@@ -55,7 +62,7 @@ func (s *GreeterServer) SayRecord(stream pb.Greeter_SayRecordServer) error {
 
 		log.Printf("resp: %v\n", resp)
 	}
-	return nil // TODO:
+	// return nil
 }
 
 // 双向流式RPC
