@@ -1,6 +1,9 @@
 syntax = "proto3";
 option go_package = "./proto;proto";
 
+import "google/protobuf/any.proto"; 
+// TODO:
+
 // 生成proto对应的pb.go
 //  protoc --go_out=plugins=grpc:. ./proto/*.proto
 
@@ -8,4 +11,10 @@ message Pager {
 	int64 page = 1;
 	int64 page_size = 2;
 	int64 total_rows = 3;
+}
+
+message Error {
+	int32 code = 1;
+	string message = 2;
+	google.protobuf.Any detail = 3;
 }
