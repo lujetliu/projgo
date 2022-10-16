@@ -16,6 +16,19 @@ func FromError(err error) *Status {
 	return &Status{s}
 }
 
+// func FromError(err error) (s *Status, ok bool) {
+// 	if err == nil {
+// 		return nil, true
+// 	}
+// 	if se, ok := err.(interface { // TODO: 类型断言还可以使用匿名类型,
+// 	熟悉这种用法
+// 		GRPCStatus() *Status
+// 	}); ok {
+// 		return se.GRPCStatus(), true
+// 	}
+// 	return New(codes.Unknown, err.Error()), false
+// }
+
 func TogRPCError(err *Error) error {
 	pbErr := &pb.Error{Code: int32(err.Code()), Message: err.Msg()}
 	s, _ := status.New(ToRPCCode(err.Code()), err.Msg()).WithDetails(pbErr)
