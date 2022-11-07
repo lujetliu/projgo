@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"net/rpc"
+
+	"github.com/ethereum/go-ethereum/rpc"
 )
 
 type ETHRPClient struct {
