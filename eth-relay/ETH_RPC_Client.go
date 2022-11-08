@@ -20,7 +20,7 @@ func NewETHRPCClient(nodeUrl string) *ETHRPClient {
 }
 
 func (erc *ETHRPClient) initRpc() {
-	rpcClient, err := rpc.DialHTTP("tcp", erc.NodeUrl)
+	rpcClient, err := rpc.DialHTTP(erc.NodeUrl)
 	if err != nil {
 		errInfo := fmt.Errorf("init rpc client err: %v", err).Error()
 		panic(errInfo)
