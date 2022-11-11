@@ -30,7 +30,7 @@ func TestGetTransactionByHash(t *testing.T) {
 		return
 	}
 
-	txInfo, err := NewETHTPCRequester(infuraNodeUrl).GetTransactionByHash(txHash)
+	txInfo, err := NewETHRPCRequester(infuraNodeUrl).GetTransactionByHash(txHash)
 	if err != nil {
 		fmt.Printf("查询交易失败: %s\n", err)
 		return
@@ -45,7 +45,7 @@ func TestGetTransactions(t *testing.T) {
 		"0x714c0e40cb90e53593c4e1ba0d24078a5033253d5c7eada69f3454ffc1665c2e",
 		"0x366a2932d605e5007aa31428a8ef5a0ee928a4c5b714b87d66c1c776712518f9",
 	}
-	txInfos, err := NewETHTPCRequester(infuraNodeUrl).GetTransactions(txHashs)
+	txInfos, err := NewETHRPCRequester(infuraNodeUrl).GetTransactions(txHashs)
 	if err != nil {
 		fmt.Printf("批量查询交易失败: %s\n", err)
 		return
@@ -56,7 +56,7 @@ func TestGetTransactions(t *testing.T) {
 
 // 测试查询ETH余额
 func TestGetETHBalance(t *testing.T) {
-	balance, err := NewETHTPCRequester(infuraNodeUrl).GetETHBalance(wallet)
+	balance, err := NewETHRPCRequester(infuraNodeUrl).GetETHBalance(wallet)
 	if err != nil {
 		fmt.Printf("查询ETH余额失败: %s\n", err)
 		return
@@ -70,10 +70,41 @@ func TestGetETHBalanceList(t *testing.T) {
 		wallet,
 		"0xdAC17F958D2ee523a2206206994597C13D831ec7",
 	}
-	balances, err := NewETHTPCRequester(infuraNodeUrl).GetETHBalanceList(address)
+	balances, err := NewETHRPCRequester(infuraNodeUrl).GetETHBalanceList(address)
 	if err != nil {
 		fmt.Printf("批量查询ETH余额失败: %s\n", err)
 		return
 	}
 	fmt.Println(balances)
+}
+
+// 测试获取以太坊最新生成的区块号
+func TestGetLatestBlockNumber(t *testing.T) {
+	number, err := NewETHRPCRequester(infuraNodeUrl).GetLatestBlockNumber()
+	if err != nil {
+		fmt.Println("获取区块号信息失败: ", err.Error())
+		return
+	}
+	fmt.Printf("最新区块号: %s\n", number)
+}
+
+// 测试根据区块号获取区块信息
+func TestGeyBlockInfo(t *testing.T) {
+	number, err := NewETHRPCRequester(infuraNodeUrl).GetLatestBlockNumber()
+	if err != nil {
+		fmt.Println("获取最新区块号失败: ", err)
+		return
+	}
+
+	block, err := NewETHRPCRequester(infuraNodeUrl).GetBlockInfoByNumber(number)
+	if err != nil {
+		fmt.Printf("根据区块号获取区块信息失败, 区块号: %s, %s\n", number, err)
+		return
+	}
+	fmt.Println(number)
+
+	// blockInfo, _ := json.Marshal(block)
+	// fmt.Println("根据区块号获取区块信息: \n", string(blockInfo))
+	fmt.Println(len(block.Transactions))
+	fmt.Println(block.Transactions[0])
 }

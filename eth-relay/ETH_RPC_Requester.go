@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"eth-relay/model"
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rpc"
@@ -12,7 +13,7 @@ type ETHRPCRequester struct {
 	client *ETHRPClient
 }
 
-func NewETHTPCRequester(nodeUrl string) *ETHRPCRequester {
+func NewETHRPCRequester(nodeUrl string) *ETHRPCRequester {
 	requester := &ETHRPCRequester{}
 	requester.client = NewETHRPCClient(nodeUrl)
 	return requester
@@ -101,4 +102,36 @@ func (r *ETHRPCRequester) GetETHBalanceList(address []string) ([]string, error) 
 	}
 
 	return balances, nil
+}
+
+// 获取最新区块号
+func (r *ETHRPCRequester) GetLatestBlockNumber() (*big.Int, error) {
+	methodName := "eth_blockNumber"
+	number := ""                                     // 存储结果
+	err := r.client.client.Call(&number, methodName) // eth_blockNumber 不需要参数
+	if err != nil {
+		return nil, fmt.Errorf("获取最新区块号失败:! %s", err.Error())
+	}
+
+	tenNumber, _ := new(big.Int).SetString(number[2:], 16)
+	return tenNumber, nil
+}
+
+// 根据区块号获取区块信息
+func (r *ETHRPCRequester) GetBlockInfoByNumber(blockNumer *big.Int) (*model.Block, error) {
+	// 八进制数前加0（%#o），十六进制数前加0x（%#x）或0X（%#X），指针去掉前面的0x（%#p）
+	number := fmt.Sprintf("%#x", blockNumer) // 将 big.Int 转换为16进制字符串
+	methodName := "eth_getBlockByNumber"
+
+	block := model.Block{}
+	err := r.client.client.Call(&block, methodName, number, true)
+	if err != nil {
+		return nil, fmt.Errorf("get block info failed! %s", err.Error())
+	}
+
+	if block.Number == "" {
+		return nil, fmt.Errorf("block info is empty %s", blockNumer.String())
+	}
+
+	return &block, nil
 }

@@ -35,11 +35,10 @@ func (r *ERC20BalanceRpcReq) GetERC20Balances(paramArr []ERC20BalanceRpcReq) ([]
 		userAddress := paramArr[i].UserAddress
 
 		// 针对访问 balanceOf 时的必需参数, 查询余额不需要燃料费,
-		// 此处不需要设置 gas
+		// 此处不需要设置 gas, TODO: err: intrinsic gas too low: have 0, want 21432 (supplied gas 0)
 		arg.To = common.HexToAddress(paramArr[i].ContractAddress)
 		// TODO: data 的参数组合格式, 24个0字符
 		arg.Data = methodId + "000000000000000000000000" + userAddress[2:]
-		arg.Gas = "0x7a1200"
 
 		// 实例化每个 BatchElem
 		req := rpc.BatchElem{
