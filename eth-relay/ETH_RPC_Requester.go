@@ -135,3 +135,20 @@ func (r *ETHRPCRequester) GetBlockInfoByNumber(blockNumer *big.Int) (*model.Bloc
 
 	return &block, nil
 }
+
+// 根据区块哈希值获取区块信息
+func (r *ETHRPCRequester) GetBlockInfoByHash(blockHash string) (*model.Block, error) {
+	methodName := "eth_getBlockByHash"
+	block := model.Block{}
+
+	err := r.client.client.Call(&block, methodName, blockHash, true)
+	if err != nil {
+		return nil, fmt.Errorf("get block info failed! %s", err.Error())
+	}
+
+	if block.Number == "" {
+		return nil, fmt.Errorf("block info is empty %s", blockHash)
+	}
+
+	return &block, nil
+}

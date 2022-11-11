@@ -1,5 +1,6 @@
 package model
 
+// TODO: 熟悉以太坊区块相关字段信息
 type Block struct {
 	Number           string        `json:"number"`           // 区块号
 	Hash             string        `json:"hash"`             // 区块的哈希值

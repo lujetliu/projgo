@@ -103,8 +103,18 @@ func TestGeyBlockInfo(t *testing.T) {
 	}
 	fmt.Println(number)
 
-	// blockInfo, _ := json.Marshal(block)
-	// fmt.Println("根据区块号获取区块信息: \n", string(blockInfo))
-	fmt.Println(len(block.Transactions))
-	fmt.Println(block.Transactions[0])
+	blockInfo, _ := json.Marshal(block)
+	fmt.Println("根据区块号获取区块信息: \n", string(blockInfo))
+}
+
+// 测试根据区块哈希获取区块信息
+func TestGetBlockByBlockHash(t *testing.T) {
+	blockHash := "0x2c646c33c7d7f29470d76527089667b6e8a3b89b05f9382d0400eac887482e0c"
+	block, err := NewETHRPCRequester(infuraNodeUrl).GetBlockInfoByHash(blockHash)
+	if err != nil {
+		fmt.Println("获取区块信息失败: ", err)
+		return
+	}
+	blockInfo, _ := json.Marshal(block)
+	fmt.Println("根据区块哈希获取区块信息: \n", string(blockInfo))
 }
