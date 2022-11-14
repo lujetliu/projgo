@@ -152,3 +152,13 @@ func (r *ETHRPCRequester) GetBlockInfoByHash(blockHash string) (*model.Block, er
 
 	return &block, nil
 }
+
+// 使用 eth_call 调用智能合约函数, TODO: 单元测试
+func (r *ETHRPCRequester) ETHCall(result interface{}, arg model.CallArg) error {
+	methodName := "eth_call"
+	err := r.client.client.Call(result, methodName, arg, "latest")
+	if err != nil {
+		return fmt.Errorf("eth_call failed! %s", err.Error())
+	}
+	return nil
+}
