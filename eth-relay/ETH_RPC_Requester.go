@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/rpc"
 )
 
@@ -161,4 +162,28 @@ func (r *ETHRPCRequester) ETHCall(result interface{}, arg model.CallArg) error {
 		return fmt.Errorf("eth_call failed! %s", err.Error())
 	}
 	return nil
+}
+
+// 创建钱包
+func (r *ETHRPCRequester) CreateETHWallet(password string) (string, error) {
+	if password == "" {
+		return "", errors.New("password can't empty")
+	}
+
+	if len(password) < 6 {
+		return "", errors.New("password's len must more than 6 words")
+	}
+
+	keydir := "./keystores" // 存储所创建钱包的keystore文件的文件夹
+	// TODO:
+	// StandardScryptN 是 Scrypt加密算法的标准N参数
+	// StandardScryptP 是 Scrypt加密算法的标准P参数
+	ks := keystore.NewKeyStore(keydir, keystore.StandardScryptN,
+		keystore.StandardScryptP)
+	wallet, err := ks.NewAccount(password) // 传入密码，创建钱包
+	if err != nil {
+		return "0x", err // why return "0x"
+	}
+
+	return wallet.Address.String(), nil
 }

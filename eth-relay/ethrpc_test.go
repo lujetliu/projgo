@@ -118,3 +118,18 @@ func TestGetBlockByBlockHash(t *testing.T) {
 	blockInfo, _ := json.Marshal(block)
 	fmt.Println("根据区块哈希获取区块信息: \n", string(blockInfo))
 }
+
+// 测试创建以太坊钱包地址
+func TestCreateETHWallet(t *testing.T) {
+	address1, err := NewETHRPCRequester(infuraNodeUrl).CreateETHWallet("12345")
+	if err != nil {
+		fmt.Println(address1, err)
+	}
+
+	address2, err := NewETHRPCRequester(infuraNodeUrl).CreateETHWallet("12345aa")
+	if err != nil {
+		fmt.Println(address2, err)
+		return
+	}
+	fmt.Println(address2, err)
+}
